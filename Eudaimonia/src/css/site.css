@@ -1,0 +1,15 @@
+
+
+.bg-dark {
+    background-color: #5994B2!important;
+}
+
+h1, .text-color-section-heading{
+    color: #B2E5FF!important;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 0px;
+}
