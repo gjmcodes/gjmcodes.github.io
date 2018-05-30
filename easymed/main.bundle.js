@@ -447,8 +447,12 @@ var AgendaComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppointmentDetailsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_selectedDoctor_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedDoctor.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_selectedDay_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedDay.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_doctor_model__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/models/doctor.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_selectedDoctor_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedDoctor.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_selectedDay_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedDay.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_selectedAppointmentGroup_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedAppointmentGroup.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_agendaWeekDay_model__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/models/agendaWeekDay.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_appointmentGroup_model__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/models/appointmentGroup.model.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -461,11 +465,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
+
 var AppointmentDetailsComponent = /** @class */ (function () {
-    function AppointmentDetailsComponent(selectedDoctorService, selectedDayService) {
+    function AppointmentDetailsComponent(selectedDoctorService, selectedDayService, selectedAppointmentService) {
+        var _this = this;
         this.selectedDoctorService = selectedDoctorService;
         this.selectedDayService = selectedDayService;
+        this.selectedAppointmentService = selectedAppointmentService;
         this.title = 'Appointment Details Component';
+        this.selectedDoctor = new __WEBPACK_IMPORTED_MODULE_1__models_doctor_model__["a" /* Doctor */]();
+        this.selectedAppointmentGroup = new __WEBPACK_IMPORTED_MODULE_6__models_appointmentGroup_model__["a" /* AppointmentGroup */]();
+        this.selectedDay = new __WEBPACK_IMPORTED_MODULE_5__models_agendaWeekDay_model__["a" /* AgendaWeekDay */]();
+        this.selectedDoctorService
+            .selectedDoctor.subscribe(function (selectedDoctor) { return _this.selectedDoctor = selectedDoctor; });
+        this.selectedDayService
+            .selectedDay.subscribe(function (selectedDay) { return _this.selectedDay = selectedDay; });
+        this.selectedAppointmentService
+            .selectedAppointmentGroup.subscribe(function (selectedAptGroup) { return _this.selectedAppointmentGroup = selectedAptGroup; });
     }
     AppointmentDetailsComponent.prototype.ngOnInit = function () {
     };
@@ -474,8 +493,9 @@ var AppointmentDetailsComponent = /** @class */ (function () {
             selector: 'appointment-details',
             template: __webpack_require__("./src/app/modules/secretaryAppointmentModule/views/appointment-details.component.html")
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_selectedDoctor_service__["a" /* SelectedDoctorService */],
-            __WEBPACK_IMPORTED_MODULE_2__services_selectedDay_service__["a" /* SelectedDayService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__services_selectedDoctor_service__["a" /* SelectedDoctorService */],
+            __WEBPACK_IMPORTED_MODULE_3__services_selectedDay_service__["a" /* SelectedDayService */],
+            __WEBPACK_IMPORTED_MODULE_4__services_selectedAppointmentGroup_service__["a" /* SelectedAppointmentGroupService */]])
     ], AppointmentDetailsComponent);
     return AppointmentDetailsComponent;
 }());
@@ -756,6 +776,7 @@ var SecretaryModuleTestComponent = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectedDayComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_selectedDay_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedDay.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_selectedAppointmentGroup_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedAppointmentGroup.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -767,14 +788,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var SelectedDayComponent = /** @class */ (function () {
-    function SelectedDayComponent(selectedDayService) {
+    function SelectedDayComponent(selectedDayService, selectedAptGroupService) {
         this.selectedDayService = selectedDayService;
+        this.selectedAptGroupService = selectedAptGroupService;
         this.title = 'SelectedDayComponent';
     }
     SelectedDayComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.selectedDayService.selectedDay.subscribe(function (selectedDay) { return _this.selectedDay = selectedDay; });
+    };
+    SelectedDayComponent.prototype.selectAppointment = function (event, item) {
+        this.selectedAptGroupService.changedSelectedAptGroup(item);
+        $('#patient-form-tab').click();
     };
     SelectedDayComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -782,7 +809,8 @@ var SelectedDayComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/modules/secretaryAppointmentModule/styles/shared.style.css")],
             template: __webpack_require__("./src/app/modules/secretaryAppointmentModule/views/selectedDay.component.html")
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_selectedDay_service__["a" /* SelectedDayService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_selectedDay_service__["a" /* SelectedDayService */],
+            __WEBPACK_IMPORTED_MODULE_2__services_selectedAppointmentGroup_service__["a" /* SelectedAppointmentGroupService */]])
     ], SelectedDayComponent);
     return SelectedDayComponent;
 }());
@@ -864,7 +892,12 @@ var AppointmentGroupFactory = /** @class */ (function () {
             .getLocaleHourMinuteFormatFromMinutes(startHourInMinutes);
         var formattedEndHour = this.dateTimeService
             .getLocaleHourMinuteFormatFromMinutes(endHourInMinutes);
-        var aptGroup = new __WEBPACK_IMPORTED_MODULE_2__models_appointmentGroup_model__["a" /* AppointmentGroup */](startHourInMinutes, endHourInMinutes, agendaWeekDay, formattedStartHour, formattedEndHour);
+        var aptGroup = new __WEBPACK_IMPORTED_MODULE_2__models_appointmentGroup_model__["a" /* AppointmentGroup */]();
+        aptGroup.startHourInMinutes = startHourInMinutes;
+        aptGroup.endHourInMinutes = endHourInMinutes;
+        aptGroup.agendaWeekDay = agendaWeekDay;
+        aptGroup.formattedStartHour = formattedStartHour;
+        aptGroup.formattedEndHour = formattedEndHour;
         return aptGroup;
     };
     AppointmentGroupFactory = __decorate([
@@ -1040,18 +1073,8 @@ var Appointment = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppointmentGroup; });
 var AppointmentGroup = /** @class */ (function () {
-    function AppointmentGroup(startHourInMinutes, endHourInMinutes, agendaWeekDay, formattedStartHour, formattedEndHour) {
-        this.startHourInMinutes = startHourInMinutes;
-        this.endHourInMinutes = endHourInMinutes;
-        this.formattedStartHour = formattedStartHour;
-        this.formattedEndHour = formattedEndHour;
+    function AppointmentGroup() {
         this.appointments = new Array();
-        this.agendaWeekDay = agendaWeekDay;
-        this.day = this.agendaWeekDay.day;
-        this.fullColor = "#839483";
-        this.fullBorderColor = "#abbdab";
-        this.availableColor = "#008000";
-        this.availableBorderColor = "#0d960d";
     }
     AppointmentGroup.prototype.groupIsFull = function () {
         if (this.appointments == null || this.appointments.length == 0) {
@@ -1139,12 +1162,14 @@ var Practice = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_doctor_best_day_component__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/components/doctor-best-day.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__factories_doctor_factory__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/factories/doctor.factory.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__services_selectedDoctor_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedDoctor.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__services_selectedAppointmentGroup_service__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/services/selectedAppointmentGroup.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1199,6 +1224,7 @@ var SecretaryAppointmentModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_12__services_selectedDay_service__["a" /* SelectedDayService */],
                 __WEBPACK_IMPORTED_MODULE_13__services_agendaWeekDay_service__["a" /* AgendaWeekDayService */],
                 __WEBPACK_IMPORTED_MODULE_21__services_selectedDoctor_service__["a" /* SelectedDoctorService */],
+                __WEBPACK_IMPORTED_MODULE_22__services_selectedAppointmentGroup_service__["a" /* SelectedAppointmentGroupService */],
                 __WEBPACK_IMPORTED_MODULE_14__factories_agendaWeekDay_factory__["a" /* AgendaWeekDayFactory */],
                 __WEBPACK_IMPORTED_MODULE_15__factories_appointmentGroup_factory__["a" /* AppointmentGroupFactory */],
                 __WEBPACK_IMPORTED_MODULE_20__factories_doctor_factory__["a" /* DoctorFactory */]
@@ -1517,6 +1543,45 @@ var PracticesService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/modules/secretaryAppointmentModule/services/selectedAppointmentGroup.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectedAppointmentGroupService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_appointmentGroup_model__ = __webpack_require__("./src/app/modules/secretaryAppointmentModule/models/appointmentGroup.model.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SelectedAppointmentGroupService = /** @class */ (function () {
+    function SelectedAppointmentGroupService() {
+        this.observableSelectedAppointmentGroupSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](new __WEBPACK_IMPORTED_MODULE_2__models_appointmentGroup_model__["a" /* AppointmentGroup */]());
+        this.selectedAppointmentGroup = this.observableSelectedAppointmentGroupSource.asObservable();
+    }
+    SelectedAppointmentGroupService.prototype.changedSelectedAptGroup = function (aptGroup) {
+        this.observableSelectedAppointmentGroupSource.next(aptGroup);
+    };
+    SelectedAppointmentGroupService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [])
+    ], SelectedAppointmentGroupService);
+    return SelectedAppointmentGroupService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/modules/secretaryAppointmentModule/services/selectedDay.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1612,7 +1677,7 @@ module.exports = "\r\n\r\n<div class=\"card  align-text-center\">\r\n    <div cl
 /***/ "./src/app/modules/secretaryAppointmentModule/views/appointment-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-12\">\r\n    <div class=\"jumbotron jumbotron-fluid\">\r\n        <div class=\"col-md-12\">\r\n\r\n            <div class=\"row\">\r\n\r\n                <div class=\"col-md-4\">\r\n                    <label for=\"doctorName\">Doctor</label>\r\n                    <input id=\"doctorName\" class=\"form-control\" />\r\n                </div>\r\n\r\n                <div class=\"col-md-4\">\r\n                    <label for=\"doctorPractice\">Practice</label>\r\n                    <input id=\"doctorPractice\" class=\"form-control\" />\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"row\">\r\n                <div class=\"col-md-2\">\r\n                    <label for=\"appointmentday\">Appointment Day</label>\r\n                    <input id=\"appointmentday\" class=\"form-control\" />\r\n                </div>\r\n\r\n                <div class=\"col-md-4\">\r\n                    <label for=\"healthcarePlan\">Healthcare Plan</label>\r\n                    <select id=\"healthcarePlan\" class=\"form-control\">\r\n                        <option>None</option>\r\n                        <option>Unimed</option>\r\n                        <option>Bradesco</option>\r\n                    </select>\r\n                </div>\r\n            </div>\r\n\r\n\r\n\r\n            <div class=\"row\">\r\n                <div class=\"col-md-6\">\r\n                    <label for=\"patientName\">Patient</label>\r\n                    <input id=\"patientName\" class=\"form-control\" />\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"float-right\">\r\n                <button class=\"btn btn-success\">\r\n                    <span>Confirm</span>\r\n                    <i class=\"fas fa-check-circle\"></i>\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"col-md-12\">\r\n    <div class=\"jumbotron jumbotron-fluid\">\r\n        <div class=\"col-md-12\">\r\n\r\n            <div class=\"row\">\r\n\r\n                <div class=\"col-md-4\">\r\n                    <label for=\"doctorName\">Doctor</label>\r\n                    <input id=\"doctorName\" placeholder=\"{{selectedDoctor.name}}\" class=\"form-control\" readonly /> \r\n                </div>\r\n\r\n                <div class=\"col-md-4\">\r\n                    <label for=\"doctorPractice\">Practice</label>\r\n                    <input id=\"doctorPractice\" class=\"form-control\" />\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"row\">\r\n                <div class=\"col-md-2\">\r\n                    <label for=\"appointmentday\">Appointment Day</label>\r\n                    <input id=\"appointmentday\" placeholder=\"{{selectedDay.dateString}}\" class=\"form-control\" readonly /> \r\n                </div>\r\n\r\n                <div class=\"col-md-2\">\r\n                    <label for=\"appointmentday\">Start Hour</label>\r\n                    <input id=\"appointmentday\" placeholder=\"{{selectedAppointmentGroup.formattedStartHour}}\" class=\"form-control\" readonly /> \r\n                </div>\r\n\r\n                <div class=\"col-md-4\">\r\n                    <label for=\"healthcarePlan\">Healthcare Plan</label>\r\n                    <select id=\"healthcarePlan\" class=\"form-control\">\r\n                        <option>None</option>\r\n                        <option>Unimed</option>\r\n                        <option>Bradesco</option>\r\n                    </select>\r\n                </div>\r\n            </div>\r\n\r\n\r\n\r\n            <div class=\"row\">\r\n                <div class=\"col-md-6\">\r\n                    <label for=\"patientName\">Patient</label>\r\n                    <input id=\"patientName\" class=\"form-control\" />\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"float-right\">\r\n                <button class=\"btn btn-success\">\r\n                    <span>Confirm</span>\r\n                    <i class=\"fas fa-check-circle\"></i>\r\n                </button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -1661,7 +1726,7 @@ module.exports = "<h1>Surprise mothefucka!</h1>"
 /***/ "./src/app/modules/secretaryAppointmentModule/views/selectedDay.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-default align-text-center\">\r\n    <div class=\"row\">\r\n        <div class=\"col\">\r\n            <div class=\"appointmentTimeBox\" *ngFor=\"let aptGroup of selectedDay.appointmentGroups\">\r\n                <div class=\"appointimentTimeBox appointmentGroupBox weekDayIterationSpacing\" [ngClass]=\"aptGroup.groupIsFull() ? 'fullAppointmentGroup'\r\n                : 'freeAppointmentGroup'\">\r\n                    <span>{{aptGroup.formattedStartHour}}</span>\r\n                    <br />\r\n                    <span> {{aptGroup.formattedEndHour}}</span>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"panel panel-default align-text-center\">\r\n    <div class=\"row\">\r\n        <div class=\"col\">\r\n            <div class=\"appointmentTimeBox\" *ngFor=\"let aptGroup of selectedDay.appointmentGroups\">\r\n                <div class=\"appointmentTimeBox appointmentGroupBox weekDayIterationSpacing\" [ngClass]=\"aptGroup.groupIsFull() ? 'fullAppointmentGroup'\r\n                : 'freeAppointmentGroup'\" (click)=\"selectAppointment($event, aptGroup)\">\r\n                    <span>{{aptGroup.formattedStartHour}}</span>\r\n                    <br />\r\n                    <span> {{aptGroup.formattedEndHour}}</span>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
